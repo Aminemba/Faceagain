@@ -4,23 +4,35 @@
 
 <span><%= link_to 'New Post', new_post_path , class: "btn btn-primary" %></span>
 
+
+
 <div class="header_container-menu">
 <p id="notice"><%= notice %></p>
 <% @posts.each do |post| %>
 <article class="post">
   <p class="content">
-    <strong><strong><%=current_user.name%></strong></strong>
+    <% @users.each do |user| %>
+    <% if user.id == post.user_id %>
+    <strong><strong><%=user.name%></strong></strong>
+    <%end%>
+
+    <%end%>
   </p>
   <br>
   <p><%= post.content %></p>
-  <%= image_tag(post.image.url) if post.image && post.image.url %>
+
+    <%= image_tag post.image.url,class: "post-image" %>
   <br>
+
     <small><%= post.created_at.strftime('%Y/%-m/%-d %-H:%-M') %>
     </small>
   <br>
+
   <span><%= link_to 'Show', post , class: 'btn btn-primary' %></span>
+    <% if current_user.id == post.user_id %>
   <span><%= link_to 'Edit', edit_post_path(post) , class: 'btn btn-primary' %></span>
   <span><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' },  class: 'btn btn-primary' %></span>
+     <%end%>
 </article>
 <% end %>
 </div>

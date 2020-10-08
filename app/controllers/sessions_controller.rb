@@ -1,10 +1,10 @@
 class SessionsController < ApplicationController
 
   def new
-      flash[:danger] = ''
-        if logged_in?
-          redirect_to posts_path
-        end
+    flash[:danger] = ''
+    if logged_in?
+      redirect_to posts_path
+    end
   end
 
   def create

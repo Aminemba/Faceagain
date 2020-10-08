@@ -1,40 +1,41 @@
 class PostsController < ApplicationController
-    before_action :set_post, only: [:show, :edit, :update, :destroy]
-    before_action :logged_in?
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in?
 
   def index
-      @post = Post.new
-      @posts = Post.all
-    end
+    @users=User.all
+    @post = Post.new
+    @posts = Post.all
+  end
 
-    def show
-    end
+  def show
+  end
 
-    def edit
-    end
+  def edit
+  end
 
-    def new
-      if params[:back]
-        @post = Post.new(post_params)
-      else
-        @post = Post.new
-      end
-    end
-
-
-    def create
+  def new
+    if params[:back]
       @post = Post.new(post_params)
+    else
+      @post = Post.new
+    end
+  end
 
-      respond_to do |format|
-        if @post.save
-          format.html { redirect_to @post, notice: 'Post was successfully created.' }
-          format.json { render :show, status: :created, location: @post }
-        else
-          format.html { render :new }
-          format.json { render json: @post.errors, status: :unprocessable_entity }
-        end
+
+  def create
+    @post = Post.new(post_params)
+
+    respond_to do |format|
+      if @post.save
+        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.json { render :show, status: :created, location: @post }
+      else
+        format.html { render :new }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+  end
 
   def update
     respond_to do |format|
@@ -51,14 +52,14 @@ class PostsController < ApplicationController
   def confirm
     @post = current_user.posts.build(post_params)
     @post.id = params[:id]
- end
+  end
 
   def destroy
     @post.destroy
     respond_to do |format|
       format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
-   end
+    end
   end
 
   private
